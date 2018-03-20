@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //Register
-router.get('/register',(req,res)=>{
+router.post('/register',(req,res)=>{
     res.send('REGISTER');
 });
 
@@ -15,11 +15,5 @@ router.post('/authenticate',(req,res)=>{
 router.get('/profile',(req,res)=>{
     res.send('PROFILE');
 });
-
-//Validate
-router.get('/validate',(req,res)=>{
-    res.send('VALIDATE');
-});
-
 
 module.exports = router;
