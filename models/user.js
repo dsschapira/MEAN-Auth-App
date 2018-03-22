@@ -24,7 +24,6 @@ const UserSchema = mongoose.Schema({
 const User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.getUserById = function(id, callback){
-    console.log(id);
     User.findById(id, callback);
 }
 
@@ -34,13 +33,24 @@ module.exports.getUserByUsername = function(username, callback){
 }
 
 module.exports.addUser = function(newUser, callback){
-    bcrypt.genSalt(10,(err,salt)=>{
-        bcrypt.hash(newUser.password, salt, (err, hash)=>{
-            if(err) throw err;
-            newUser.password = hash;
-            newUser.save(callback);
-        });
+    //Don't let multiple users with same email exist
+    const query = User.findOne({email: newUser.email});
+    query.exec((err, result) =>{
+        if(result !== null){
+            return callback('User exists', null);
+        }
+        else{
+            //encrypt password
+            bcrypt.genSalt(10,(err,salt)=>{
+                bcrypt.hash(newUser.password, salt, (err, hash)=>{
+                    if(err) throw err;
+                    newUser.password = hash;
+                    newUser.save(callback);
+                });
+            });
+        }
     });
+    
 }
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){

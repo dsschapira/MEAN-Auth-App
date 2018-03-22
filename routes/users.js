@@ -17,9 +17,10 @@ router.post('/register',(req,res)=>{
 
     User.addUser(newUser, (err,user)=>{
         if(err){
+            let msg = err == 'User exists' ? "This email is already in use" :"Failed to register user";
             res.json({
                 success: false,
-                msg: 'Failed to register user'
+                msg: msg
             });
         }
         else{
