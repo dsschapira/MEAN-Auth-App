@@ -2,8 +2,8 @@
   <h1>MEAN App</h1>
   <p class="lead">Welcom to our custom MEAN authentication application built from scratch</p>
   <div>
-    <a class="btn btn-default" [routerLink]="['/login']">Login</a>
-    <a class="btn btn-primary" [routerLink]="['/register']">Register</a>
+    <a *ngIf="!authService.loggedIn()" class="btn btn-default" [routerLink]="['/login']">Login</a>
+    <a *ngIf="!authService.loggedIn()" class="btn btn-primary" [routerLink]="['/register']">Register</a>
   </div>
 </div>
 
